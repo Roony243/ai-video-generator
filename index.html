@@ -93,6 +93,78 @@ backdrop-filter: blur(14px);
       opacity: 0.9;
       transform:translateY(-2px);
     }
+/* Premium UI Upgrade */
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124, 92, 255, 0.18), transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(33, 212, 253, 0.12), transparent 35%),
+    #080810;
+}
+
+nav {
+  padding: 24px 8%;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+}
+
+.hero {
+  min-height: 85vh;
+  padding: 40px 20px 80px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 1.05;
+  max-width: 850px;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.hero p {
+  max-width: 650px;
+  text-align: center;
+  color: #a9a9b8;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.generator {
+  width: 100%;
+  max-width: 720px;
+  padding: 28px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+  backdrop-filter: blur(16px);
+}
+
+textarea {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.35);
+  color: white;
+  border-radius: 16px;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #21d4fd;
+  box-shadow: 0 0 0 3px rgba(33,212,253,0.12);
+}
+
+button {
+  border-radius: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+video {
+  width: 100%;
+  border-radius: 18px;
+  margin-top: 20px;
+}
+    
   </style>
 </head>
 
