@@ -34,7 +34,7 @@ const finalPrompt = `${prompt}. ${stylePrompt}. ${formatPrompt}. ${durationPromp
         },
         body: JSON.stringify({
           input: {
-            prompt: finalprompt,
+            prompt: finalPrompt,
             prompt_optimizer: true
           }
         })
