@@ -4,8 +4,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { prompt } = req.body;
+    const { prompt, style } = req.body;
+const stylePrompt =
+  style === "anime" ? "anime style" :
+  style === "3d" ? "high-quality 3D animation style" :
+  style === "realistic" ? "photorealistic, realistic cinematography" :
+  "cinematic, professional film look";
 
+const finalPrompt = `${prompt}. ${stylePrompt}`;
     if (!prompt) {
       return res.status(400).json({ error: "Please enter a prompt" });
     }
@@ -21,7 +27,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           input: {
-            prompt: prompt,
+            prompt: finalprompt,
             prompt_optimizer: true
           }
         })
