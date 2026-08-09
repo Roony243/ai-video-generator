@@ -285,6 +285,9 @@ downloadButton.addEventListener("click", async (e) => {
   button.addEventListener("click", async () => {
     const prompt = textarea.value.trim();
 const style = document.querySelector("#style").value;
+const aspectRatio = document.querySelector("#aspectRatio").value;
+const duration = document.querySelector("#duration").value;
+    
     if (!prompt) {
       status.textContent = "Please describe the video you want.";
       return;
@@ -304,7 +307,7 @@ const style = document.querySelector("#style").value;
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ prompt: prompt, style: style })
+       body: JSON.stringify({ prompt: prompt, style: style, aspectRatio: aspectRatio, duration: duration })
       });
 
       const data = await response.json();
