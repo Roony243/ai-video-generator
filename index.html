@@ -164,7 +164,36 @@ video {
   border-radius: 18px;
   margin-top: 20px;
 }
-    
+.video-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin: 16px 0;
+}
+
+.video-controls select {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.35);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.video-controls select:focus {
+  outline: none;
+  border-color: #21d4fd;
+  box-shadow: 0 0 0 3px rgba(33,212,253,0.12);
+}
+
+@media (max-width: 700px) {
+  .video-controls {
+    grid-template-columns: 1fr;
+  }
+}    
   </style>
 </head>
 
@@ -189,6 +218,26 @@ video {
       <textarea
         placeholder="Example: A futuristic sports car driving through New York City at night..."
       ></textarea>
+
+      <div class="video-controls">
+  <select id="aspectRatio">
+    <option value="16:9">🖥️ Landscape 16:9</option>
+    <option value="9:16">📱 Portrait 9:16</option>
+    <option value="1:1">⬜ Square 1:1</option>
+  </select>
+
+  <select id="duration">
+    <option value="5">5 seconds</option>
+    <option value="10">10 seconds</option>
+  </select>
+
+  <select id="style">
+    <option value="cinematic">🎬 Cinematic</option>
+    <option value="realistic">📸 Realistic</option>
+    <option value="anime">✨ Anime</option>
+    <option value="3d">🧊 3D Animation</option>
+  </select>
+</div>
 
       <button>✨ Generate Video</button>
 
