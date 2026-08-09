@@ -129,9 +129,21 @@
   video.style.width = "100%";
   video.style.marginTop = "20px";
   video.style.display = "none";
+const downloadButton = document.createElement("a");
+downloadButton.textContent = "⬇️ Download Video";
+downloadButton.style.display = "none";
+downloadButton.style.marginTop = "15px";
+downloadButton.style.padding = "12px 20px";
+downloadButton.style.textDecoration = "none";
+downloadButton.style.color = "white";
+downloadButton.style.background = "#2563eb";
+downloadButton.style.borderRadius = "8px";
+downloadButton.download = "ai-video.mp4";
+  
 
   document.querySelector(".generator").appendChild(status);
   document.querySelector(".generator").appendChild(video);
+  document.querySelector(".generator").appendChild(downloadButton);
 
   button.addEventListener("click", async () => {
     const prompt = textarea.value.trim();
@@ -147,6 +159,7 @@
       "Your AI video is being generated. This may take a few minutes.";
 
     video.style.display = "none";
+    downloadButton.style.display = "none";
 
     try {
       const response = await fetch("/api/generate", {
@@ -169,6 +182,8 @@
     video.src = Array.isArray(data.output)
         ? data.output[0]
         : data.output;
+        downloadButton.href = video.src;
+downloadButton.style.display = "inline-block";
 
     video.style.display = "block";
     status.textContent = "Your video is ready!";
@@ -196,6 +211,8 @@
             video.src = Array.isArray(result.output)
                 ? result.output[0]
                 : result.output;
+          downloadButton.href = video.src;
+downloadButton.style.display = "inline-block";
 
             video.style.display = "block";
             status.textContent = "Your video is ready!";
