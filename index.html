@@ -54,9 +54,12 @@
       width: 100%;
       max-width: 700px;
       margin-top: 30px;
-      background: #171722;
-      padding: 25px;
-      border-radius: 18px;
+     background: rgba(23, 23, 34, 0.9);
+padding: 32px;
+border-radius: 22px;
+border: 1px solid rgba(255, 255, 255, 0.08);
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+backdrop-filter: blur(14px);
     }
 
     textarea {
@@ -76,16 +79,19 @@
       margin-top: 15px;
       padding: 16px;
       border: none;
-      border-radius: 10px;
+      border-radius: 14px;
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
+      transition:all 0.2s ease;
       background: linear-gradient(90deg, #7c5cff, #21d4fd);
+      box-shadow:0 8px 25px rgba(33, 212, 253, 0.25);
       color: white;
     }
 
     button:hover {
       opacity: 0.9;
+      transform:translateY(-2px);
     }
   </style>
 </head>
