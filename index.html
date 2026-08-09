@@ -166,15 +166,52 @@
       }
 
       if (data.output) {
-        video.src = Array.isArray(data.output)
-          ? data.output[0]
-          : data.output;
+    video.src = Array.isArray(data.output)
+        ? data.output[0]
+        : data.output;
 
-        video.style.display = "block";
-        status.textContent = "Your video is ready!";
-      } else {
-        status.textContent =
-          "The video started generating but is not finished yet.";
+    video.style.display = "block";
+    status.textContent = "Your video is ready!";
+} else if (data.id) {
+    status.textContent = "Generating video...";
+
+    let finished = false;
+
+    while (!finished) {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        const statusResponse = await fetch(
+            "/api/status?id=" + encodeURIComponent(data.id)
+        );
+
+        const result = await statusResponse.json();
+
+        if (!statusResponse.ok) {
+            throw new Error(
+                result.detail || result.error || "Status check failed"
+            );
+        }
+
+        if (result.status === "succeeded" && result.output) {
+            video.src = Array.isArray(result.output)
+                ? result.output[0]
+                : result.output;
+
+            video.style.display = "block";
+            status.textContent = "Your video is ready!";
+            finished = true;
+        } else if (
+            result.status === "failed" ||
+            result.status === "canceled"
+        ) {
+            throw new Error(result.error || "Video generation failed");
+        } else {
+            status.textContent = "Generating video...";
+        }
+    }
+} else {
+    throw new Error("No prediction ID received");
+}
       }
 
     } catch (error) {
