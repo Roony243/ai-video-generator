@@ -51,7 +51,7 @@ const finalPrompt = `${prompt}. ${stylePrompt}. ${formatPrompt}. ${durationPromp
 
   } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong generating the video."
+     error: error.message || "Something went wrong generating the video."
     });
   }
 }
