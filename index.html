@@ -117,6 +117,73 @@
     </div>
 
   </section>
+<script>
+  const button = document.querySelector("button");
+  const textarea = document.querySelector("textarea");
 
+  const status = document.createElement("p");
+  status.style.marginTop = "15px";
+
+  const video = document.createElement("video");
+  video.controls = true;
+  video.style.width = "100%";
+  video.style.marginTop = "20px";
+  video.style.display = "none";
+
+  document.querySelector(".generator").appendChild(status);
+  document.querySelector(".generator").appendChild(video);
+
+  button.addEventListener("click", async () => {
+    const prompt = textarea.value.trim();
+
+    if (!prompt) {
+      status.textContent = "Please describe the video you want.";
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Generating...";
+    status.textContent =
+      "Your AI video is being generated. This may take a few minutes.";
+
+    video.style.display = "none";
+
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt: prompt })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.detail || data.error || "Generation failed"
+        );
+      }
+
+      if (data.output) {
+        video.src = Array.isArray(data.output)
+          ? data.output[0]
+          : data.output;
+
+        video.style.display = "block";
+        status.textContent = "Your video is ready!";
+      } else {
+        status.textContent =
+          "The video started generating but is not finished yet.";
+      }
+
+    } catch (error) {
+      status.textContent = "Error: " + error.message;
+    }
+
+    button.disabled = false;
+    button.textContent = "✨ Generate Video";
+  });
+</script>
 </body>
 </html>
