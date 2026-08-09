@@ -138,7 +138,17 @@ downloadButton.style.textDecoration = "none";
 downloadButton.style.color = "white";
 downloadButton.style.background = "#2563eb";
 downloadButton.style.borderRadius = "8px";
-downloadButton.download = "ai-video.mp4";
+downloadButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const response = await fetch(video.src);
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ai-video.mp4";
+  a.click();
+  URL.revokeObjectURL(url);
+});
   
 
   document.querySelector(".generator").appendChild(status);
