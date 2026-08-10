@@ -5,6 +5,8 @@ export default async function handler(req, res) {
 
   try {
    const { prompt, style, aspectRatio, duration } = req.body;
+const cleanPrompt = prompt?.trim();
+    
 const stylePrompt =
   style === "anime" ? "anime style" :
   style === "3d" ? "high-quality 3D animation style" :
@@ -18,8 +20,8 @@ const formatPrompt =
 const durationPrompt = `approximately ${duration || 5} seconds`;
     
 
-const finalPrompt = `${prompt}. ${stylePrompt}. ${formatPrompt}. ${durationPrompt}.`;
-    if (!prompt) {
+const finalPrompt = `${cleanPrompt}. ${stylePrompt}. ${formatPrompt}. ${durationPrompt}.`;
+    if (!cleanPrompt) {
       return res.status(400).json({ error: "Please enter a prompt" });
     }
 
