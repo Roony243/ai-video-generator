@@ -238,16 +238,38 @@ video {
     <option value="3d">🧊 3D Animation</option>
   </select>
 </div>
+<div class="mode-switch">
+  <button type="button" id="textModeBtn">Text to Video</button>
+  <button type="button" id="imageModeBtn">Image to Video</button>
+</div>
 
-      <button>✨ Generate Video</button>
+<div id="imageUploadSection" style="display: none; margin-bottom: 15px;">
+  <input type="file" id="imageInput" accept="image/*">
+</div>
+     <button id="generateButton">✨ Generate Video</button>
 
     </div>
 
   </section>
 <script>
-  const button = document.querySelector("button");
+  const button = document.getElementById("generateButton");
   const textarea = document.querySelector("textarea");
+const textModeBtn = document.getElementById("textModeBtn");
+const imageModeBtn = document.getElementById("imageModeBtn");
+const imageUploadSection = document.getElementById("imageUploadSection");
+const imageInput = document.getElementById("imageInput");
 
+let currentMode = "text";
+
+textModeBtn.addEventListener("click", () => {
+  currentMode = "text";
+  imageUploadSection.style.display = "none";
+});
+
+imageModeBtn.addEventListener("click", () => {
+  currentMode = "image";
+  imageUploadSection.style.display = "block";
+});
   const status = document.createElement("p");
   status.style.marginTop = "15px";
 
@@ -302,13 +324,45 @@ const duration = document.querySelector("#duration").value;
     downloadButton.style.display = "none";
 
     try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-       body: JSON.stringify({ prompt: prompt, style: style, aspectRatio: aspectRatio, duration: duration })
-      });
+      let endpoint = "/api/generate";
+let requestBody = {
+  prompt,
+  style,
+  aspectRatio,
+  duration
+};
+
+if (currentMode === "image") {
+  const imageFile = imageInput.files[0];
+
+  if (!imageFile) {
+    status.textContent = "Please upload an image.";
+    button.disabled = false;
+    button.textContent = "✨ Generate Video";
+    return;
+  }
+
+  const image = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(imageFile);
+  });
+
+  endpoint = "/api/image-to-video";
+  requestBody = {
+    prompt,
+    image
+  };
+}
+
+const response = await fetch(endpoint, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(requestBody)
+});
 
       const data = await response.json();
 
