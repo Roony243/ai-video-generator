@@ -218,6 +218,7 @@ video {
       <textarea
         placeholder="Example: A futuristic sports car driving through New York City at night..."
       ></textarea>
+      <button type="button" id="enhancePromptBtn">✨ Enhance Prompt</button>
 
       <div class="video-controls">
   <select id="aspectRatio">
@@ -254,12 +255,33 @@ video {
 <script>
   const button = document.getElementById("generateButton");
   const textarea = document.querySelector("textarea");
+  const enhancePromptBtn = document.getElementById("enhancePromptBtn");
 const textModeBtn = document.getElementById("textModeBtn");
 const imageModeBtn = document.getElementById("imageModeBtn");
 const imageUploadSection = document.getElementById("imageUploadSection");
 const imageInput = document.getElementById("imageInput");
 
 let currentMode = "text";
+enhancePromptBtn.addEventListener("click", () => {
+    const originalPrompt = textarea.value.trim();
+
+    if (!originalPrompt) {
+        alert("Please enter a video idea first.");
+        return;
+    }
+
+    const style = document.getElementById("style").value;
+
+    const styleDetails = {
+        cinematic: "cinematic masterpiece, exceptional detail, premium film production aesthetic, HDR-style dynamic range, rich contrast, realistic lighting, dramatic composition, volumetric lighting, realistic depth of field, smooth cinematic camera movement, natural motion blur, highly detailed textures, professional color grading, large-format cinema aesthetic, visually stunning",
+        realistic: "photorealistic, ultra-detailed, natural lighting, HDR-style dynamic range, realistic textures, authentic movement, lifelike depth, sharp focus, professional color grading, premium documentary-quality realism",
+        anime: "high-quality anime style, ultra-detailed character and environment design, expressive motion, dramatic lighting, vivid color depth, polished animation, cinematic composition, smooth camera movement, premium studio-quality look",
+        "3d": "high-end 3D animation, ultra-detailed textures, realistic materials, cinematic lighting, global illumination, HDR-style contrast, smooth motion, professional render quality, polished visual effects, premium feature-film animation aesthetic"
+    };
+
+    textarea.value = `${originalPrompt}. ${styleDetails[style] || styleDetails.cinematic}. Clear subject movement, coherent scene, smooth motion, strong visual storytelling, premium production quality, visually impressive composition.`;
+});
+  
 
 textModeBtn.addEventListener("click", () => {
   currentMode = "text";
