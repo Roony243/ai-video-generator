@@ -339,8 +339,21 @@ const duration = document.querySelector("#duration").value;
 
    button.disabled = true;
 button.textContent = "✨ Creating Video...";
-status.textContent =
-  "⏳ Preparing your video — the AI is processing your request...";
+
+const loadingMessages = [
+  "⏳ Preparing your video...",
+  "🎬 AI is generating motion...",
+  "⚡ Rendering your scene...",
+  "✨ Finalizing your video..."
+];
+
+let loadingIndex = 0;
+status.textContent = loadingMessages[loadingIndex];
+
+const loadingInterval = setInterval(() => {
+  loadingIndex = (loadingIndex + 1) % loadingMessages.length;
+  status.textContent = loadingMessages[loadingIndex];
+}, 4000);
 
     video.style.display = "none";
     downloadButton.style.display = "none";
@@ -435,6 +448,7 @@ const response = await fetch(endpoint, {
 downloadButton.style.display = "inline-block";
 
     video.style.display = "block";
+        clearInterval(loadingInterval);
     status.textContent = "Your video is ready!";
 } else if (data.id) {
     status.textContent = "Generating video...";
@@ -464,6 +478,7 @@ downloadButton.style.display = "inline-block";
 downloadButton.style.display = "inline-block";
 
             video.style.display = "block";
+          clearInterval(loadingInterval);
             status.textContent = "Your video is ready!";
             finished = true;
         } else if (
@@ -481,6 +496,7 @@ downloadButton.style.display = "inline-block";
       
   
   } catch (error) {
+      clearInterval(loadingInterval);
       status.textContent = "Error: " + error.message;
     }
 
