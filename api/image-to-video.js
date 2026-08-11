@@ -4,10 +4,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { prompt, image } = req.body;
+   const { prompt, image, style, aspectRatio, duration } = req.body;
 
     const cleanPrompt = prompt?.trim();
+const stylePrompt =
+  style === "anime" ? "anime style" :
+  style === "3d" ? "high-quality 3D animation style" :
+  style === "realistic" ? "photorealistic, realistic cinematography" :
+  "cinematic, professional film look";
 
+const formatPrompt =
+  aspectRatio === "9:16" ? "vertical portrait 9:16 composition" :
+  aspectRatio === "1:1" ? "square 1:1 composition" :
+  "widescreen landscape 16:9 composition";
+
+const durationPrompt = `approximately ${duration || 5} seconds`;
+
+const finalPrompt = `${cleanPrompt}. ${stylePrompt}. ${formatPrompt}. ${durationPrompt}.`;
+    
     if (!image) {
       return res.status(400).json({ error: "Please upload an image" });
     }
@@ -26,7 +40,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           input: {
-            prompt: cleanPrompt,
+            prompt: finalPrompt,
             first_frame_image: image,
           },
         }),
