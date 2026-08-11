@@ -321,8 +321,24 @@ downloadButton.addEventListener("click", async (e) => {
   URL.revokeObjectURL(url);
 });
   
+const progressContainer = document.createElement("div");
+progressContainer.style.width = "100%";
+progressContainer.style.height = "10px";
+progressContainer.style.background = "rgba(255,255,255,0.15)";
+progressContainer.style.borderRadius = "10px";
+progressContainer.style.overflow = "hidden";
+progressContainer.style.marginTop = "12px";
+progressContainer.style.display = "none";
 
+const progressBar = document.createElement("div");
+progressBar.style.width = "0%";
+progressBar.style.height = "100%";
+progressBar.style.background = "linear-gradient(90deg, #7c5cff, #21d4fd)";
+progressBar.style.transition = "width 0.6s ease";
+
+progressContainer.appendChild(progressBar);
   document.querySelector(".generator").appendChild(status);
+  document.querySelector(".generator").appendChild(progressContainer);
   document.querySelector(".generator").appendChild(video);
   document.querySelector(".generator").appendChild(downloadButton);
 
@@ -339,7 +355,8 @@ const duration = document.querySelector("#duration").value;
 
    button.disabled = true;
 button.textContent = "✨ Creating Video...";
-
+progressBar.style.width = "0%";
+progressContainer.style.display = "none";
 const loadingMessages = [
   "⏳ Preparing your video...",
   "🎬 AI is generating motion...",
@@ -348,11 +365,18 @@ const loadingMessages = [
 ];
 
 let loadingIndex = 0;
+const progressSteps = [15, 40, 70, 90];
+
 status.textContent = loadingMessages[loadingIndex];
+progressContainer.style.display = "block";
+progressBar.style.width = progressSteps[loadingIndex] + "%";
 
 const loadingInterval = setInterval(() => {
-  loadingIndex = (loadingIndex + 1) % loadingMessages.length;
-  status.textContent = loadingMessages[loadingIndex];
+  if (loadingIndex < loadingMessages.length - 1) {
+    loadingIndex++;
+    status.textContent = loadingMessages[loadingIndex];
+    progressBar.style.width = progressSteps[loadingIndex] + "%";
+  }
 }, 4000);
 
     video.style.display = "none";
@@ -449,6 +473,7 @@ downloadButton.style.display = "inline-block";
 
     video.style.display = "block";
         clearInterval(loadingInterval);
+        progressBar.style.width = "100%";
     status.textContent = "Your video is ready!";
 } else if (data.id) {
     status.textContent = "Generating video...";
@@ -479,6 +504,7 @@ downloadButton.style.display = "inline-block";
 
             video.style.display = "block";
           clearInterval(loadingInterval);
+          progressBar.style.width = "100%";
             status.textContent = "Your video is ready!";
             finished = true;
         } else if (
