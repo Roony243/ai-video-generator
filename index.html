@@ -402,10 +402,13 @@ if (currentMode === "image") {
 });
 
   endpoint = "/api/image-to-video";
-  requestBody = {
-    prompt,
-    image
-  };
+ requestBody = {
+  prompt,
+  image,
+  style,
+  aspectRatio,
+  duration
+};
 }
 
 const response = await fetch(endpoint, {
