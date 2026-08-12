@@ -303,6 +303,36 @@ video.style.boxShadow = "0 20px 50px rgba(0,0,0,0.35)";
 video.style.background = "#000";
   video.style.marginTop = "20px";
   video.style.display = "none";
+function addToCreations(videoUrl) {
+    const creationsGrid = document.getElementById("creationsGrid");
+    if (!creationsGrid) return;
+
+    const card = document.createElement("div");
+    card.style.background = "rgba(255,255,255,0.06)";
+    card.style.border = "1px solid rgba(255,255,255,0.1)";
+    card.style.borderRadius = "16px";
+    card.style.padding = "16px";
+    card.style.marginBottom = "20px";
+
+    const savedVideo = document.createElement("video");
+    savedVideo.src = videoUrl;
+    savedVideo.controls = true;
+    savedVideo.style.width = "100%";
+    savedVideo.style.borderRadius = "12px";
+
+    const savedDownload = document.createElement("a");
+    savedDownload.href = videoUrl;
+    savedDownload.textContent = "⬇ Download";
+    savedDownload.style.display = "inline-block";
+    savedDownload.style.marginTop = "12px";
+    savedDownload.style.color = "white";
+    savedDownload.style.textDecoration = "none";
+
+    card.appendChild(savedVideo);
+    card.appendChild(savedDownload);
+    creationsGrid.prepend(card);
+}
+  
 const downloadButton = document.createElement("a");
 downloadButton.textContent = "⬇️ Download Video";
 downloadButton.style.display = "none";
@@ -522,6 +552,7 @@ downloadButton.style.display = "inline-block";
         generateAnotherButton.style.display = "inline-block";
 
     video.style.display = "block";
+        addToCreations(video.src);
         clearInterval(loadingInterval);
         progressBar.style.width = "100%";
     status.textContent = "Your video is ready!";
@@ -553,6 +584,7 @@ downloadButton.style.display = "inline-block";
 downloadButton.style.display = "inline-block";
 generateAnotherButton.style.display = "inline-block";
             video.style.display = "block";
+          addToCreations(video.src);
           clearInterval(loadingInterval);
           progressBar.style.width = "100%";
             status.textContent = "Your video is ready!";
