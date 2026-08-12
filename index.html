@@ -341,6 +341,28 @@ progressContainer.appendChild(progressBar);
   document.querySelector(".generator").appendChild(progressContainer);
   document.querySelector(".generator").appendChild(video);
   document.querySelector(".generator").appendChild(downloadButton);
+const generateAnotherButton = document.createElement("button");
+generateAnotherButton.textContent = "✨ Generate Another";
+generateAnotherButton.style.display = "none";
+generateAnotherButton.style.marginTop = "15px";
+generateAnotherButton.style.marginLeft = "10px";
+generateAnotherButton.style.padding = "12px 20px";
+generateAnotherButton.style.border = "none";
+generateAnotherButton.style.borderRadius = "8px";
+generateAnotherButton.style.cursor = "pointer";
+
+generateAnotherButton.addEventListener("click", () => {
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
+    video.style.display = "none";
+    downloadButton.style.display = "none";
+    generateAnotherButton.style.display = "none";
+    textarea.focus();
+});
+
+document.querySelector(".generator").appendChild(generateAnotherButton);
+  
 
   button.addEventListener("click", async () => {
     const prompt = textarea.value.trim();
@@ -470,6 +492,7 @@ const response = await fetch(endpoint, {
         : data.output;
         downloadButton.href = video.src;
 downloadButton.style.display = "inline-block";
+        generateAnotherButton.style.display = "inline-block";
 
     video.style.display = "block";
         clearInterval(loadingInterval);
