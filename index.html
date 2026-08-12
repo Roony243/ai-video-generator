@@ -306,6 +306,12 @@ video.style.background = "#000";
 function addToCreations(videoUrl) {
     const creationsGrid = document.getElementById("creationsGrid");
     if (!creationsGrid) return;
+  const savedCreations = JSON.parse(localStorage.getItem("myCreations") || "[]");
+
+if (!savedCreations.includes(videoUrl)) {
+    savedCreations.unshift(videoUrl);
+    localStorage.setItem("myCreations", JSON.stringify(savedCreations));
+}
 
     const card = document.createElement("div");
     card.style.background = "rgba(255,255,255,0.06)";
@@ -332,7 +338,15 @@ function addToCreations(videoUrl) {
     card.appendChild(savedDownload);
     creationsGrid.prepend(card);
 }
-  
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedCreations = JSON.parse(
+        localStorage.getItem("myCreations") || "[]"
+    );
+
+    [...savedCreations].reverse().forEach((videoUrl) => {
+        addToCreations(videoUrl);
+    });
+});
 const downloadButton = document.createElement("a");
 downloadButton.textContent = "⬇️ Download Video";
 downloadButton.style.display = "none";
