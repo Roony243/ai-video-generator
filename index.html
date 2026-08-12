@@ -298,6 +298,9 @@ imageModeBtn.addEventListener("click", () => {
   const video = document.createElement("video");
   video.controls = true;
   video.style.width = "100%";
+  video.style.borderRadius = "16px";
+video.style.boxShadow = "0 20px 50px rgba(0,0,0,0.35)";
+video.style.background = "#000";
   video.style.marginTop = "20px";
   video.style.display = "none";
 const downloadButton = document.createElement("a");
@@ -309,6 +312,16 @@ downloadButton.style.textDecoration = "none";
 downloadButton.style.color = "white";
 downloadButton.style.background = "#2563eb";
 downloadButton.style.borderRadius = "8px";
+  downloadButton.style.fontWeight = "700";
+downloadButton.style.boxShadow = "0 10px 30px rgba(37,99,235,0.35)";
+downloadButton.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
+  downloadButton.onmouseenter = () => {
+    downloadButton.style.transform = "translateY(-2px)";
+};
+
+downloadButton.onmouseleave = () => {
+    downloadButton.style.transform = "translateY(0)";
+};
 downloadButton.addEventListener("click", async (e) => {
   e.preventDefault();
   const response = await fetch(video.src);
@@ -350,7 +363,19 @@ generateAnotherButton.style.padding = "12px 20px";
 generateAnotherButton.style.border = "none";
 generateAnotherButton.style.borderRadius = "8px";
 generateAnotherButton.style.cursor = "pointer";
+  generateAnotherButton.style.color = "white";
+generateAnotherButton.style.fontWeight = "700";
+generateAnotherButton.style.background = "linear-gradient(90deg, #7c5cff, #21d4fd)";
+generateAnotherButton.style.boxShadow = "0 10px 30px rgba(33,212,253,0.25)";
+generateAnotherButton.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
+  
+generateAnotherButton.onmouseenter = () => {
+    generateAnotherButton.style.transform = "translateY(-2px)";
+};
 
+generateAnotherButton.onmouseleave = () => {
+    generateAnotherButton.style.transform = "translateY(0)";
+};
 generateAnotherButton.addEventListener("click", () => {
     video.pause();
     video.removeAttribute("src");
