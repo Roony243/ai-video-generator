@@ -333,7 +333,11 @@ if (!savedCreations.some(item =>
   card.style.width = "100%";
 card.style.maxWidth = "none";
 card.style.boxSizing = "border-box";
-
+  card.style.boxShadow = "0 12px 35px rgba(0,0,0,0.25)";
+card.style.transition = "transform 0.25s ease, box-shadow 0.25s ease";
+card.onmouseenter = () => card.style.transform = "translateY(-6px)";
+card.onmouseleave = () => card.style.transform = "translateY(0)";
+  
     const savedVideo = document.createElement("video");
     savedVideo.src = videoUrl;
     savedVideo.controls = true;
