@@ -305,7 +305,13 @@ video.style.background = "#000";
   video.style.display = "none";
 function addToCreations(videoUrl, createdAt = new Date().toISOString()) {
     const creationsGrid = document.getElementById("creationsGrid");
-    if (!creationsGrid) return;
+   if (!creationsGrid) return;
+creationsGrid.style.display = "grid";
+creationsGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(300px, 1fr))";
+creationsGrid.style.gap = "20px";
+creationsGrid.style.alignItems = "start";
+  
+   
   const savedCreations = JSON.parse(localStorage.getItem("myCreations") || "[]");
 
 if (!savedCreations.some(item =>
@@ -324,6 +330,9 @@ if (!savedCreations.some(item =>
     card.style.borderRadius = "16px";
     card.style.padding = "16px";
     card.style.marginBottom = "20px";
+  card.style.width = "100%";
+card.style.maxWidth = "none";
+card.style.boxSizing = "border-box";
 
     const savedVideo = document.createElement("video");
     savedVideo.src = videoUrl;
