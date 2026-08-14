@@ -336,6 +336,28 @@ if (!savedCreations.includes(videoUrl)) {
 
     card.appendChild(savedVideo);
     card.appendChild(savedDownload);
+  const deleteButton = document.createElement("button");
+deleteButton.textContent = "🗑️ Delete";
+deleteButton.style.marginLeft = "12px";
+deleteButton.style.padding = "8px 14px";
+deleteButton.style.borderRadius = "8px";
+deleteButton.style.border = "none";
+deleteButton.style.cursor = "pointer";
+
+deleteButton.addEventListener("click", () => {
+  const updatedCreations = JSON.parse(
+    localStorage.getItem("myCreations") || "[]"
+  ).filter(url => url !== videoUrl);
+
+  localStorage.setItem(
+    "myCreations",
+    JSON.stringify(updatedCreations)
+  );
+
+  card.remove();
+});
+
+card.appendChild(deleteButton);
     creationsGrid.prepend(card);
 }
   window.addEventListener("DOMContentLoaded", () => {
