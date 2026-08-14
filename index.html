@@ -325,15 +325,20 @@ if (!savedCreations.includes(videoUrl)) {
     savedVideo.controls = true;
     savedVideo.style.width = "100%";
     savedVideo.style.borderRadius = "12px";
-
-    const savedDownload = document.createElement("a");
-    savedDownload.href = videoUrl;
-    savedDownload.textContent = "⬇ Download";
-    savedDownload.style.display = "inline-block";
-    savedDownload.style.marginTop = "12px";
-    savedDownload.style.color = "white";
-    savedDownload.style.textDecoration = "none";
-
+  const savedDownload = document.createElement("a");
+savedDownload.href = videoUrl;
+savedDownload.textContent = "⬇ Download Video";
+  
+savedDownload.style.display = "inline-block";
+savedDownload.style.marginTop = "12px";
+savedDownload.style.padding = "8px 14px";
+savedDownload.style.borderRadius = "8px";
+savedDownload.style.background = "linear-gradient(90deg, #4f46e5, #06b6d4)";
+savedDownload.style.color = "white";
+savedDownload.style.textDecoration = "none";
+savedDownload.style.fontWeight = "600";
+savedDownload.style.cursor = "pointer";
+   
     card.appendChild(savedVideo);
     card.appendChild(savedDownload);
   const deleteButton = document.createElement("button");
