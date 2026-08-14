@@ -303,16 +303,21 @@ video.style.boxShadow = "0 20px 50px rgba(0,0,0,0.35)";
 video.style.background = "#000";
   video.style.marginTop = "20px";
   video.style.display = "none";
-function addToCreations(videoUrl) {
+function addToCreations(videoUrl, createdAt = new Date().toISOString()) {
     const creationsGrid = document.getElementById("creationsGrid");
     if (!creationsGrid) return;
   const savedCreations = JSON.parse(localStorage.getItem("myCreations") || "[]");
 
-if (!savedCreations.includes(videoUrl)) {
-    savedCreations.unshift(videoUrl);
+if (!savedCreations.some(item =>
+    (typeof item === "string" ? item : item.url) === videoUrl
+)) {
+    savedCreations.unshift({
+        url: videoUrl,
+        createdAt: createdAt
+    });
+
     localStorage.setItem("myCreations", JSON.stringify(savedCreations));
 }
-
     const card = document.createElement("div");
     card.style.background = "rgba(255,255,255,0.06)";
     card.style.border = "1px solid rgba(255,255,255,0.1)";
@@ -325,6 +330,14 @@ if (!savedCreations.includes(videoUrl)) {
     savedVideo.controls = true;
     savedVideo.style.width = "100%";
     savedVideo.style.borderRadius = "12px";
+const dateLabel = document.createElement("p");
+dateLabel.textContent = createdAt
+    ? "Created: " + new Date(createdAt).toLocaleString()
+    : "Created: Previously saved";
+dateLabel.style.margin = "10px 0 0";
+dateLabel.style.fontSize = "13px";
+dateLabel.style.color = "rgba(255,255,255,0.65)";
+  
   const savedDownload = document.createElement("a");
 savedDownload.href = videoUrl;
 savedDownload.textContent = "⬇ Download Video";
@@ -340,6 +353,7 @@ savedDownload.style.fontWeight = "600";
 savedDownload.style.cursor = "pointer";
    
     card.appendChild(savedVideo);
+  card.appendChild(dateLabel);
     card.appendChild(savedDownload);
   const deleteButton = document.createElement("button");
 deleteButton.textContent = "🗑️ Delete";
@@ -352,7 +366,9 @@ deleteButton.style.cursor = "pointer";
 deleteButton.addEventListener("click", () => {
   const updatedCreations = JSON.parse(
     localStorage.getItem("myCreations") || "[]"
-  ).filter(url => url !== videoUrl);
+  ).filter(item =>
+  (typeof item === "string" ? item : item.url) !== videoUrl
+);
 
   localStorage.setItem(
     "myCreations",
@@ -370,9 +386,11 @@ card.appendChild(deleteButton);
         localStorage.getItem("myCreations") || "[]"
     );
 
-    [...savedCreations].reverse().forEach((videoUrl) => {
-        addToCreations(videoUrl);
-    });
+   [...savedCreations].reverse().forEach((item) => {
+    const videoUrl = typeof item === "string" ? item : item.url;
+    const createdAt = typeof item === "string" ? null : item.createdAt;
+    addToCreations(videoUrl, createdAt);
+});
 });
 const downloadButton = document.createElement("a");
 downloadButton.textContent = "⬇️ Download Video";
